@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Drive BC App</title>
+  <link rel="stylesheet" href="https://unpkg.com/vue-select@3.0.0/dist/vue-select.css">
+  <link rel="stylesheet" href="app.css">
+  <link rel="stylesheet" href="skeleton.css">
+</head>
+
+<body>
+  <div id="app">
+    <!--top panel includes header and selection controls-->
+    <div class="top-panel">
+      <div class="elements__header">
+        <h3 style="text-align: center;">Drive BC App</h3>
+        <p style="font-size:small">Please note:<br />
+          Application layout adjusts to different screen sizes.</br>
+          Multiple values can be selected in the multi-selects such as areas and severities by
+          pressing CTRL and clicking on options.<br />
+          **Start date is specified in UTC time zone.
+        </p>
+      </div>
+      <div class="elements__area">
+        <label>Areas</label>
+        <select multiple="true" style="width:250px;height:88px" v-model="selectedAreas" id="areaList">
+          <option v-for="area in areas" v-bind:value="area.id">
+            {{area.name}}
+          </option>
+        </select>
+      </div>
+      <div class="elements__severity">
+        <label>Severities</label>
+        <select multiple="true" style="width:250px;height:88px" v-model="selectedSeverities" id="severityList">
+          <option v-for="severity in severities" v-bind:value="severity">
+            {{severity}}
+          </option>
+        </select>
+      </div>
+      <div class="elements__type">
+        <label>Event Type</label>
+        <select v-model="selectedEventType" id="eventTypeList">
+          <option v-for="eventType in eventTypes" v-bind:value="eventType">
+            {{eventType}}
+          </option>
+        </select>
+      </div>
+      <div class="elements__date">
+        <label>Start Date (UTC)</label>
+        <input type="date" v-model="startDate" />
+      </div>
+      <div class="elements__button">
+        <input type="button" value="Get Events" v-on:click="fetchEvents" />
+      </div>
+    </div>
+    <!--Events are rendered below in the table-->
+    <section v-if="errored">
+      <p>We're sorry, we're not able to retrieve this information at the moment, please try back later</p>
+    </section>
+    <section v-else>
+      <div v-if="loadingEvents">Loading...</div>
+      <div v-else>
+        <table>
+          <thead>
+            <tr>
+              <th><strong>Area</strong></th>
+              <th><strong>Severity</strong></th>
+              <th><strong>Type</strong></th>
+              <th><strong>Start Date</strong></th>
+              <th><strong>Description</strong></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="event in events" :key="event.id">
+              <td>
+                <span v-for="area in event.areas">{{area.name}} </span>
+              </td>
+              <td>{{event.severity}}</td>
+              <td>{{event.event_type}}</td>
+              <td>{{event.created.split('T')[0]}}</td>
+              <td>{{event.description}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+  <!--fetch necessary javascript including vue and axios libraries-->
+  <script src="https://unpkg.com/vue@2.6"></script>
+  <script src="https://unpkg.com/axios@0.20.0"></script>
+  <script src="app.vue"></script>
+
+</body>
+
+</html>

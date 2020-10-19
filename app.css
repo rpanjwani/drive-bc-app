@@ -1,0 +1,110 @@
+.top-panel {
+  display:grid;
+  grid-template-areas:
+  'header header header header'
+  'area severity type date'
+  'button button button button';
+}
+
+/*top panel for smaller screens*/
+@media 
+only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px)  {
+  .top-panel {
+    grid-template-areas:
+      'header'
+      'area'
+      'severity'
+      'type'
+      'date'
+      'button';
+  }
+}
+
+.elements__header{
+  grid-area: header;
+}
+.elements__area{
+  grid-area: area;
+}
+.elements__severity{
+  grid-area: severity;
+}
+.elements__type{
+  grid-area: type;
+}
+.elements__date{
+  grid-area: date;
+}
+.elements__button{
+  grid-area: button;
+}
+
+/* table for desktop and laptop screens */
+table { 
+  width: 100%; 
+  border-collapse: collapse; 
+}
+/* Zebra striping */
+tr:nth-of-type(odd) { 
+  background: #eee; 
+}
+th { 
+  background: #333; 
+  color: white; 
+  font-weight: bold; 
+}
+td, th { 
+  padding: 6px; 
+  border: 1px solid #ccc; 
+  text-align: left; 
+}
+
+/*table for smaller screens*/
+@media 
+only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px)  {
+
+	/* Force table to block */
+	table, thead, tbody, th, td, tr { 
+		display: block; 
+	}
+	
+	/* Hide table headers*/
+	thead tr { 
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+	
+	tr { border: 1px solid #ccc; }
+	
+	td { 
+		/* Behave  like a "row" */
+		border: none;
+		border-bottom: 1px solid #eee; 
+		position: relative;
+		padding-left: 50%; 
+	}
+	
+	td:before { 
+		/* Now like a table header */
+		position: absolute;
+		/* Top/left values mimic padding */
+		top: 6px;
+		left: 6px;
+		width: 45%; 
+		padding-right: 10px; 
+		white-space: nowrap;
+	}
+	
+	/*
+	Label the event data for smaller screen size display since we hide the normal table headers
+	*/
+	td:nth-of-type(1):before { content: "Area"; }
+	td:nth-of-type(2):before { content: "Severity"; }
+	td:nth-of-type(3):before { content: "Type"; }
+	td:nth-of-type(4):before { content: "Start Date"; }
+	td:nth-of-type(5):before { content: "Description"; }
+
+}
